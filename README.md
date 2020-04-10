@@ -4,24 +4,26 @@
 ###### Let's learn some of the new features of JavaScript 6 or ECMAScript 6.
 
 ### let vs const
-> `let` is used to set mutable data.*
+> `let` is used to set mutable data and will be accessible inside a block or class.
 ```
 let fname = 'John';
 let lname = 'Smith'; 
 lname = 'Williams'; //lname gets overwritten
 let message = `${fname} ${lname}`;
-alert(message);
+alert(message); // John Williams
 ```
-> `const` is used to set imutable data as per below.
+> `const` is used to set immutable data as per line two below. The third line is trying to set a new value, but the compiler will throw an exception, as a const can only accept a value on its creation.
 ```
 let fname = 'John';
 const lname = 'Smith'; 
-lname = 'Williams'; //lname cannot overwrite the current value
+lname = 'Williams'; // <-- ERROR - lname cannot overwrite the current value 
 let message = `${fname} ${lname}`;
 alert(message); 
 ```
 
 ### Using template string
+
+> A sophisticated way to put together complex data using '`${variable}`'.
 
 ```
 let fname = 'John';
@@ -30,49 +32,49 @@ let age = prompt(`Guess John's age...`)
 
 //Using template string
 let message = `${fname} ${lname} is ${age} years old`; // <= this is a template string example
-alert(message); 
+alert(message);  // John Smith
 ```
 
 ### Default parameters 
 
-> The user and message has a default value, but can accept new values.
+> A value can be passed in the parameter initialization as a default value and can accept new values.
 
 ```
 function welcome(user = 'Mistery person', message = 'Goodday'){
-    alert(`Hello ${user}, ${message}`);
+    alert(`Hello ${user}, ${message}`); // Mistery person, Goodday
 }
 welcome();
 ```
 
 ### Arrow Functions 
 
-> A new feature that is sofisticated and very clear and redable
+> A new way to create sophisticated and readable methods, as per the first example below.
+
 ```
 let gretting = (message) => alert(`${message} everyone!`);
 gretting('Hello'); */
 ```
-> Now lets create a object and add a function and call it at the end to execute.
+> Now, let's create a new object and add a function to it and call it at the end to execute. Note the set timeout accepts an arrow function that executes after 3000 milliseconds.
+Something else to note is 'this' is used to access beaches inside the object block within the arrow function.
 ```
 let australia = {
     // add property
     beaches : ['Bondi', 'Manly', 'Coogee'],
     // add method
     printWithDash: function() {
-        setTimeout( () => console.log(this.beaches.join(' - ')), 3000)
+        setTimeout( () => console.log( this.beaches.join(' - ')), 3000)
     }
 };
-
 australia.printWithDash();
 ```
 
-
 ### Destructuring object
 
-> This is a great feature to break down big objects
+> Destructuring objects is a great feature to break down big objects instead create multiple variables and accessing its properties with '.' dot.
 
 ```
 let uniStudent = student => {
-    let { name, university } = student; // At this line we are destructuring the object, which is really usiful to work with big objects.
+    let { name, university } = student; // destructuring student object
     console.log( `${name} from ${university}` );
 };
 
@@ -82,6 +84,7 @@ uniStudent({
 });
 ```
 ### Or
+> Destructuring the object in the parameter, which will shrink the solution.
 ```
 let uniStudent = ({name, university}) => {
     console.log( `${name} from ${university}` );
@@ -90,7 +93,7 @@ let uniStudent = ({name, university}) => {
 
 ### Destructuring arrays
 
-> At the example below we close to display the 'Kosciuszko' as we have added ',' to the firstMountain
+> The same solution can be applied to arrays. The example below displays the 'Kosciuszko' in the console with simply add ',' to the firstMountain in the new array.
 
 ```
 let [ , firstMountain] = ['Everest' , 'Kosciuszko', 'Fish Tail'];
@@ -99,39 +102,41 @@ console.log(firstMountain);
 
 ### Restructuring Objects
 
-> The same way ECMAScript 6 helps to destructuting one object, we can use to restructure on object.
+> The same way ECMAScript 6 helps to destructuring one object, it can be used to restructure an object.
 
 ```
  var name = 'Everest';
  var height = 8848;
  var output = function() { console.log(`Mt. ${this.name} is ${this.height} meter tall`); };
   
-var adventures = {name, height, output} //At this line we restructure adventures.
+var adventures = {name, height, output} // This line restructure adventures as an object.
 adventures.output();
 ```
 
 ### Spread Operator
 
-> The spreed oporator works to copy data to modify of create a new instance.
+> The spread operator creates a new instance of copy data. It is used to union data from arrays or objects.
  
 > Example one
 ```
  var mountains = ['Everest', 'Fish Tail', 'Kosciuszko'];
  var mountainsFromJapan  = ['Fuji'];
 
- var allMountains = [...mountains, ...mountainsFromJapan]
+ var allMountains = [...mountains, ...mountainsFromJapan]; // Join arrays
  
- console.log(allMountains);
+ console.log(allMountains); // 'Everest', 'Fish Tail', 'Kosciuszko', 'Fuji'
 ```
-> Example two
+> Example two first will get assigned the value of 'Everest', but the spread operator '...rest', will take all the rest of the data into it.
  ```
  var rivers = ['Sunkoshi', 'Tamakoshhi', 'Saptakoshi'];
  var [first, ...rest] = rivers;
 
- console.log(rest); // output: 'Tamakoshhi', 'Saptakoshi'
+ console.log(rest); // 'Tamakoshhi', 'Saptakoshi'
 ```
 
 ### Classes, constructor and super
+
+> The base class is defined with a set of properties when instantiated in the constructor.
 
 ```
 //Super class
@@ -147,22 +152,28 @@ class Holiday {
     }
 }
 ```
+> The sub-class needs to pass to the constructor the base parameters, plus the new parameters of the sub-class, followed by the 'super()', which will set the values to the base class.
 ```
 //Sub class
 class Expedition extends Holiday{
 
     constructor(destination, days, gear){
-        super(destination,days);
+        super(destination, days);
         this.gear = gear;
     }
 
     info() {
         super.info();
-        console.log(`Bring your ${this.gear.join(' and your ')}`)
+        console.log(`Bring your ${this.gear.join(' and your ')}`);
     }
 }
 ```
 ```
-const tripWithGear = new Expedition('Everest', 15, ['Sunglasses', 'Flags', 'Camera'])
+const tripWithGear = new Expedition('Everest', 15, ['Sunglasses', 'Flags', 'Camera']);
 tripWithGear.info();
+
+// output:
+// Everest will take 15 days.
+// Bring your Sunglasses and your Flags and your Camera
+
 ```
